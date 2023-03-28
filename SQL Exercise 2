@@ -1,0 +1,64 @@
+--Add to the existing 'employees' database the 'department' column. 
+ALTER TABLE employees --Altera a tabela employees
+ADD department varchar(50); --Adiciona a coluna departamento com o tipo de dados (varchar)
+
+-- Insert the follow data into the 'employees' table
+UPDATE employees --Atualiza a tabela 'employees'
+SET department = 'Dentist' --Insere 'Dentista' na coluna do departamento
+WHERE id = 5 --Na PK nº5
+--VALUES (1, 'John', 'Doe', 'john@doe.com', '2022-01-01', 50000);
+--VALUES (2, 'Jane', 'Smith', 'jane@smith.com', '2022-02-01', 55000);
+--VALUES (3, 'Michael', 'Brown', 'michael@brown.com', '2022-03-01', 60000);
+--VALUES (4, 'Sarah', 'Johnson', 'sarah@johnson.com', '2022-04-01', 65000);
+--VALUES (5, 'David', 'Lee', 'david@lee.com', '2022-05-01', 70000);
+
+UPDATE employees
+SET salary = '50000'
+WHERE id = 3
+
+--1. Display the names and salaries of all employees who earn more than 50,000€ per year.
+SELECT first_name + ' ' + last_name AS name, salary --Concatena o nome próprio com o apelido do trabalhador e alterar o nome da coluna para 'Name'
+FROM employees
+WHERE salary >= 50000 --Onde o salário é maior ou igual a 50000
+
+--2. Display the department and the average salary of all employees in each department, ordered by department name.
+SELECT department, salary --Apresenta apenas as colunas 'department' e 'salary'
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees) --Onde o salário é maior com o acrescento de uma subquery para obter a média salarial dos empregadores
+ORDER BY department ASC; --Ordena os dados por departamento por ordem crescente alfabética.
+
+--3. Display the name and hire date of the employee who has been working for the company for the longest time.
+SELECT TOP 1 first_name + ' ' + last_name AS name,  hire_date --Seleciona o TOP 1 concatenando o nome próprio + apelido como 'Nome' e a data de contratação
+FROM employees
+ORDER BY hire_date ASC --Ordena por data crescente de modo a apresentar o funcionário(a) mais antigo(a)
+
+--4. Display the names of all employees who were hired in the year 2022.
+SELECT first_name + ' ' + last_name AS name --Apresenta o nome e apelido
+FROM employees
+WHERE hire_date like '2022%' --Onde o ano de contratação começa por "2022"
+
+--5. Increase the salary of all employees by 10%.
+UPDATE employees
+SET salary = (salary*10)/100 --(value*percentage)/100
+
+--6. Delete all employees whose salaries are less than 30,000 per year.
+DELETE FROM employees --Apaga da tabela 'employees'
+WHERE salary <= 30000 --Os funcionários com ordenado inferior a 30000
+
+
+--7. Add a new column named 'bonus' to the table.
+ALTER TABLE employees
+ADD bonus money
+
+--7.1. Set the value of the bonus to be 5% of the salary for all employees.
+UPDATE employees
+SET bonus = (salary*5)/100
+
+
+--8. Update the bonus column to be 10% of the salary for employees in the marketing department.
+UPDATE employees
+SET bonus = (salary*10)/100
+WHERE department = 'Plumber'
+
+SELECT *
+FROM employees
