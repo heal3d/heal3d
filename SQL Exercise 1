@@ -1,0 +1,55 @@
+--1. Create a table called 'employees'
+CREATE TABLE employees (id int primary key, first_name varchar(50), last_name varchar(50), email varchar(50), hire_date datetime, salary money);
+--Cria a tabela 'employees' com os seguintes dados: ID como chave primária, Nome próprio como varchar, apelido como varchar, email como varchar, hire_date como data, salário como money apresentando os valores como decimal. 
+
+--1.5 Alter the hire_date column Data Type from datetime to date.
+ALTER TABLE employees --Altera a tabela employees
+ALTER COLUMN hire_date date; --Altera a coluna 'hire_date' para date
+
+--2. Insert the follow data into the 'employees' table
+INSERT INTO employees (id, first_name, last_name, email, hire_date, salary)
+--VALUES (1, 'John', 'Doe', 'john@doe.com', '2022-01-01', 50000);
+--VALUES (2, 'Jane', 'Smith', 'jane@smith.com', '2022-02-01', 55000);
+--VALUES (3, 'Michael', 'Brown', 'michael@brown.com', '2022-03-01', 60000);
+--VALUES (4, 'Sarah', 'Johnson', 'sarah@johnson.com', '2022-04-01', 65000);
+--VALUES (5, 'David', 'Lee', 'david@lee.com', '2022-05-01', 70000);
+
+--3. Write a query that retrieves all the employees who were hired in the year 2022
+SELECT * --Apresenta todas as colunas
+FROM employees -- Da tabela 'employees'
+WHERE hire_date BETWEEN '2022-01-01' AND '2022-12-31' --Onde a data contratada está entre 1 janeiro de 2022 a 31 de dezembro de 2022
+
+--4. Write a query that retrieves the employee with the highest salary.
+SELECT * 
+FROM employees
+WHERE salary = (SELECT MAX(salary) FROM employees); --Apresenta o salário com o acrescento de uma subquery para obter o valor máximo da tabela 'employee'
+
+--5. Write a query that retrieves the average salary of all employees.
+SELECT AVG(salary)
+FROM employees
+--WHERE salary >= (SELECT AVG(salary) FROM employees);
+
+--6. Write a query that retrieves the number of employees who earn more than $60000.
+SELECT *
+FROM employees
+WHERE salary >= 60000 --Apresenta os trabalhadores que recebem mais que 60000€
+
+--7. Write a query that retrieves the employee with the longest name (i.e., the concatenation of first_name and last_name)
+SELECT TOP 1 first_name + ' ' + last_name AS Full_Name --Apresenta o top 1, concatenando o nome próprio + ' ' + o apelido, alterando o nome da coluna para 'Full_Name'
+FROM employees
+ORDER BY Full_Name DESC
+
+--8. Write a query that retrieves the top 3 earners
+SELECT TOP 3 first_name, last_name
+FROM employees
+ORDER BY salary DESC
+
+--9. Write a query that retrieves the 5 employees with the highest salaries, sorted in descending order.
+SELECT TOP 5 first_name, last_name, salary
+FROM employees
+ORDER BY SALARY DESC
+
+--10. Write a query that updates the salary of the employee of with the email address 'sarah@johnson.com' to 75000€.
+UPDATE employees -- Atualiza na tabela 'employees'
+SET salary = 75000 --O ordenado para 75000€
+WHERE email like 'sarah@johnson.com' --Em que o e-mail seja sarah @johnson.com
